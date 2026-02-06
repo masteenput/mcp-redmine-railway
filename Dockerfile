@@ -7,4 +7,4 @@ RUN pip install mcp-proxy mcp-redmine --break-system-packages
 EXPOSE 8080
 
 # mcp-proxy wraps the stdio server and exposes it as SSE
-CMD ["mcp-proxy", "--pass-environment", "--port=8080", "--sse-host=0.0.0.0", "mcp-redmine"]
+CMD ["mcp-proxy", "--pass-environment", "--port=8080", "--host=0.0.0.0", "mcp-redmine"]
