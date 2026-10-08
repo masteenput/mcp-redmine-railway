@@ -1,10 +1,17 @@
 FROM python:3.12-slim
 
-# Install both packages
-RUN pip install mcp-proxy mcp-redmine --break-system-packages
+COPY requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir -r /app/requirements.txt
 
-# Expose the SSE port
+COPY entrypoint.py /app/entrypoint.py
+
+RUN useradd --create-home --uid 1000 mcp
+USER mcp
+
+# Coolify "Ports Exposes" must match (8080)
 EXPOSE 8080
 
-# mcp-proxy wraps the stdio server and exposes it as SSE
-CMD ["mcp-proxy", "--pass-environment", "--port=8080", "--host=0.0.0.0", "mcp-redmine"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/status')"
+
+CMD ["python", "/app/entrypoint.py"]

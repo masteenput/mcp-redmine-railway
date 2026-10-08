@@ -1,0 +1,4 @@
+# mcp-redmine serves streamable HTTP itself; mcp-proxy is no longer needed
+# (and is incompatible with mcp 2.x, which mcp-redmine now requires).
+mcp-redmine==2026.9.10.84818
+uvicorn==0.54.0
